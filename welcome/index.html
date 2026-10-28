@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FBA Revenue Calculator is installed</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3E%3Crect x=%271%27 y=%271%27 width=%2718%27 height=%2718%27 rx=%275%27 fill=%27%23248fcc%27/%3E%3Crect x=%275.5%27 y=%274.5%27 width=%279%27 height=%273%27 rx=%271%27 fill=%27%23faf8f6%27/%3E%3Cg fill=%27%23faf8f6%27%3E%3Ccircle cx=%276.6%27 cy=%2710.6%27 r=%271.1%27/%3E%3Ccircle cx=%2710%27 cy=%2710.6%27 r=%271.1%27/%3E%3Ccircle cx=%2713.4%27 cy=%2710.6%27 r=%271.1%27/%3E%3Ccircle cx=%276.6%27 cy=%2714.2%27 r=%271.1%27/%3E%3Ccircle cx=%2710%27 cy=%2714.2%27 r=%271.1%27/%3E%3Ccircle cx=%2713.4%27 cy=%2714.2%27 r=%271.1%27/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="328e350f-b770-4529-9500-92b514123a6c"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+  :root { --z: 1; }
+  body {
+    background: #1b1815; color: #f2ece2;
+    font: 17px/1.55 "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+    font-synthesis: none; overflow-x: hidden;
+  }
+  button, input { font: inherit; color: inherit; }
+  .shell { max-width: 780px; margin: 0 auto; padding: 24px 24px 64px; }
+  .brand { display: flex; align-items: center; gap: 13px; margin-bottom: 26px; }
+  .mark { display: flex; flex: 0 0 auto; }
+  .mark svg { width: 34px; height: 34px; display: block; }
+  .brand b { font-size: 15px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  h1 { font-size: 31px; line-height: 1.16; letter-spacing: -0.02em; text-wrap: balance; }
+  h1 em { font-style: normal; color: #e8a33d; }
+  .lede { margin-top: 10px; font-size: 18px; color: #b3a996; max-width: 56ch; }
+  .step { margin-top: 34px; }
+  .step h2 { font-size: 24px; letter-spacing: -0.01em; line-height: 1.25; }
+  .step p { margin-top: 8px; color: #b3a996; max-width: 58ch; }
+  .step p a, .lede a { color: #f2ece2; text-underline-offset: 3px; }
+  strong { font-weight: 600; color: #f2ece2; }
+  kbd { font: 600 15px/1 "Instrument Sans", ui-sans-serif, system-ui, sans-serif; color: #f2ece2; background: #262220; border: 1px solid #3a332c; border-bottom-width: 2px; border-radius: 6px; padding: 3px 7px; white-space: nowrap; }
+  code { font: 14.5px/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace; color: #f2ece2; background: #262220; border: 1px solid #3a332c; border-radius: 6px; padding: 2px 6px; white-space: nowrap; }
+
+  /* Drawn windows keep their 780px layout and scale down as a whole on narrow screens */
+  .shot { position: relative; margin-top: 16px; border-radius: 14px; overflow: hidden; border: 1px solid #3a332c; box-shadow: 0 18px 50px rgba(0,0,0,.4); background: #262220; width: calc(780px * var(--z)); left: 50%; transform: translateX(-50%); }
+  .shot > .win { width: 780px; zoom: var(--z); }
+  @media (max-width: 840px) { :root { --z: .9; } }
+  @media (max-width: 760px) { :root { --z: .8; } }
+  @media (max-width: 680px) { :root { --z: .7; } }
+  @media (max-width: 600px) { :root { --z: .6; } }
+  @media (max-width: 520px) { :root { --z: .52; } }
+  @media (max-width: 460px) { :root { --z: .46; } }
+  @media (max-width: 400px) { :root { --z: .43; } }
+  @media (max-width: 370px) { :root { --z: .4; } }
+  .duo { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; margin-top: 40px; }
+  .duo .step { margin-top: 0; }
+  .duo .shot { width: 100%; left: 0; transform: none; margin-top: 4px; }
+  @media (max-width: 720px) { .duo { grid-template-columns: 1fr; } }
+  footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid #3a332c; font-size: 14px; color: #8f867a; }
+  footer a { color: #b3a996; }
+
+  /* Annotations: ring and number live inside the target element */
+  .ann { position: relative; }
+  .ring { position: absolute; inset: -6px; border: 3px solid #d93036; border-radius: 50%; pointer-events: none; }
+  .ring.sq { border-radius: 14px; inset: -8px; }
+  .badge { position: absolute; top: -17px; right: -17px; width: 28px; height: 28px; border-radius: 50%; background: #d93036; color: #fff; font: 700 15px/28px "Instrument Sans", ui-sans-serif, system-ui, sans-serif; text-align: center; box-shadow: 0 0 0 3px #fff; z-index: 3; }
+  .badge.l { right: auto; left: -17px; }
+
+  /* Drawn Chrome window */
+  .win { position: relative; background: #fff; color: #202124; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; line-height: 1.3; }
+  .tabs { height: 44px; background: #dfe3e7; display: flex; align-items: flex-end; padding: 0 12px; }
+  .tab { height: 36px; width: 270px; background: #fff; border-radius: 10px 10px 0 0; display: flex; align-items: center; gap: 9px; padding: 0 14px; font-size: 14px; color: #3c4043; white-space: nowrap; overflow: hidden; }
+  .fav { width: 16px; height: 16px; border-radius: 4px; background: #b9c0c9; flex: none; }
+  .bar { height: 60px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-bottom: 1px solid #dadce0; background: #fff; }
+  .navi { display: flex; gap: 4px; color: #5f6368; flex: none; }
+  .navi svg { width: 22px; height: 22px; display: block; margin: 7px; }
+  .omni { flex: 1; min-width: 0; height: 42px; border-radius: 21px; background: #f1f3f4; display: flex; align-items: center; gap: 10px; padding: 0 16px; font-size: 16px; color: #202124; white-space: nowrap; overflow: hidden; }
+  .omni svg { width: 18px; height: 18px; color: #5f6368; flex: none; }
+  .omni .dim { color: #5f6368; }
+  .tbtn { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #5f6368; border: 0; background: transparent; padding: 0; flex: none; }
+  .tbtn svg { width: 26px; height: 26px; display: block; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: #a8c7fa; flex: none; margin: 0 4px; }
+
+  /* Neutral store page schematic (no store logo) */
+  .site { background: #fff; }
+  .sitehead { height: 46px; background: #3d424a; display: flex; align-items: center; gap: 16px; padding: 0 16px; }
+  .sitehead .logo { width: 84px; height: 18px; border-radius: 5px; background: #666c75; }
+  .sitehead .search { flex: 1; height: 30px; border-radius: 7px; background: #f5f6f7; }
+  .sitehead .acct { width: 110px; height: 14px; border-radius: 5px; background: #666c75; }
+  .skel { background: #eceef0; border-radius: 6px; }
+
+  /* Shot 1: product page with the card under the price */
+  .prod .page { display: flex; gap: 22px; padding: 20px 20px 26px; min-height: 500px; }
+  .prod .pimg { width: 90px; height: 160px; flex: none; border-radius: 8px; background: #f3f4f6; display: grid; place-items: center; }
+  .prod .pimg svg { width: 48px; height: 120px; }
+  .prod .center { width: 300px; flex: none; }
+  .prod .buy { width: 200px; flex: none; margin-left: auto; border: 1px solid #e3e5e8; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; align-self: flex-start; }
+  .prod .buy .pill { height: 34px; border-radius: 17px; }
+  .crumbs { font-size: 12px; color: #5f6368; }
+  .ptitle { margin-top: 8px; font-size: 18px; line-height: 1.3; color: #0f1111; }
+  .stars { margin-top: 8px; width: 130px; height: 12px; }
+  .price { margin-top: 12px; font-size: 28px; font-weight: 500; color: #0f1111; letter-spacing: -0.01em; }
+  .price sup { font-size: 14px; vertical-align: 12px; margin-right: 1px; }
+
+  /* Extension card, drawn with the product's own colours */
+  .fx { --surface: #faf8f6; --border: #dbd7d2; --text: #322c28; --muted: #6e6762; --good: #197037; font-family: ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif; color: var(--text); font-size: 12.5px; line-height: 1.35; }
+  .fx .num { font-variant-numeric: tabular-nums; }
+  .fxhead { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .fxhead svg { width: 18px; height: 18px; flex: none; }
+  .fxhead b { font-size: 12.5px; font-weight: 650; flex: 1; white-space: nowrap; }
+  .fxbadge { font-size: 10.5px; color: var(--muted); border: 1px solid var(--border); border-radius: 20px; padding: 2px 6px; white-space: nowrap; }
+  .fxtop { display: flex; align-items: flex-end; justify-content: space-between; padding: 8px 12px 10px; }
+  .fxtop .k { font-size: 12px; color: var(--muted); }
+  .fxtop .v { font-size: 26px; font-weight: 700; color: var(--good); letter-spacing: -0.01em; line-height: 1.1; }
+  .fxkpi { display: flex; gap: 14px; text-align: right; }
+  .fxkpi .v2 { font-size: 16px; font-weight: 650; }
+  .fxgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 12px 10px; }
+  .fxgrid span.l { display: block; font-size: 11.5px; color: var(--muted); }
+  .fxgrid span.in { display: flex; align-items: center; margin-top: 3px; height: 28px; border: 1px solid var(--border); border-radius: 6px; background: #fff; padding: 0 8px; font-size: 13px; color: var(--text); }
+  .fxrows { border-top: 1px solid var(--border); padding: 6px 12px; }
+  .fxrow { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; }
+  .fxrow small { display: block; font-size: 11px; color: var(--muted); }
+  .fxrow.tot { border-top: 1px solid var(--border); margin-top: 4px; padding-top: 7px; font-weight: 650; }
+  .fxfoot { border-top: 1px solid var(--border); padding: 8px 12px; font-size: 11.5px; color: var(--muted); }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-top: 14px; }
+
+  /* Shot 2: extensions menu */
+  .pinshot .pbody { height: 200px; padding: 22px 20px; display: flex; gap: 22px; overflow: hidden; }
+  .pinshot .pbody .skel.img { width: 120px; height: 150px; flex: none; }
+  .pinshot .pbody .col { width: 240px; display: flex; flex-direction: column; gap: 12px; }
+  .extmenu { position: absolute; top: 98px; right: 52px; width: 380px; background: #fff; border-radius: 12px; box-shadow: 0 2px 6px rgba(60,64,67,.18), 0 10px 28px rgba(60,64,67,.26); padding: 8px 0 6px; font-size: 16px; z-index: 2; }
+  .mh { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px 8px 20px; font-size: 18px; font-weight: 600; }
+  .mh svg { width: 20px; height: 20px; color: #5f6368; }
+  .mrow { display: flex; align-items: center; gap: 14px; padding: 6px 10px 6px 20px; min-height: 58px; background: #f2f4f7; }
+  .mrow .ico { width: 26px; height: 26px; flex: none; display: block; }
+  .mrow .nm { flex: 1; font-size: 16.5px; }
+  .pinb { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #3c4043; border: 0; background: transparent; padding: 0; flex: none; }
+  .pinb svg { width: 24px; height: 24px; display: block; }
+  .keb { width: 20px; height: 20px; color: #5f6368; flex: none; margin-right: 6px; }
+  .mfoot { border-top: 1px solid #e3e5e8; margin-top: 6px; padding: 12px 20px 8px; display: flex; gap: 14px; align-items: center; color: #3c4043; font-size: 16px; }
+  .mfoot svg { width: 20px; height: 20px; color: #5f6368; }
+
+  /* Shot 3: right-click menu */
+  .ctxshot .page { position: relative; height: 412px; padding: 18px; background: #fff; }
+  .ctxshot .crumbs { font-size: 11px; }
+  .ctxshot .price { font-size: 22px; margin-top: 6px; }
+  .ctxmenu { position: absolute; top: 84px; left: 52px; width: 290px; background: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(60,64,67,.2), 0 10px 28px rgba(60,64,67,.28); padding: 6px 0; font: 14.5px/1.2 "Segoe UI", system-ui, -apple-system, sans-serif; color: #202124; }
+  @media (max-width: 520px) { .ctxmenu { left: 12px; right: 28px; width: auto; font-size: 14px; } }
+  .ci { display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 16px 0 40px; white-space: nowrap; }
+  .ci.own { padding-left: 12px; }
+  .ci.own svg { width: 18px; height: 18px; flex: none; }
+  .ci .sc { margin-left: auto; color: #5f6368; font-size: 13px; }
+  .sep { height: 1px; background: #e3e5e8; margin: 5px 0; }
+  .cursor { position: absolute; top: 70px; left: 40px; width: 16px; height: 22px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="brand">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 20 20"><rect x="1" y="1" width="18" height="18" rx="5" fill="#248fcc"/><rect x="5.5" y="4.5" width="9" height="3" rx="1" fill="#faf8f6"/><g fill="#faf8f6"><circle cx="6.6" cy="10.6" r="1.1"/><circle cx="10" cy="10.6" r="1.1"/><circle cx="13.4" cy="10.6" r="1.1"/><circle cx="6.6" cy="14.2" r="1.1"/><circle cx="10" cy="14.2" r="1.1"/><circle cx="13.4" cy="14.2" r="1.1"/></g></svg></span>
+    <b>FBA Revenue Calculator</b>
+  </div>
+
+  <h1>FBA Revenue Calculator is installed. Open a product on Amazon — <em>its fees and profit appear under the price.</em></h1>
+  <p class="lede">The card shows up by itself on <a href="https://www.amazon.com/" target="_blank" rel="noopener">amazon.com</a> and <a href="https://www.amazon.co.uk/" target="_blank" rel="noopener">amazon.co.uk</a> product pages, not on the home page. Add your product cost to see your profit — the card remembers it for each product.</p>
+
+  <!-- Shot 1: the card under the price (annotation 1) -->
+  <div class="shot prod" role="img" aria-label="An Amazon product page with the FBA Revenue Calculator card under the price: net profit $8.55 per unit, ROI 129%, margin 34.2%, Amazon fees $9.79">
+    <div class="win" aria-hidden="true">
+      <div class="tabs"><span class="tab"><span class="fav"></span>Insulated Water Bottle, 32 oz</span></div>
+      <div class="bar">
+        <span class="navi"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg><svg viewBox="0 0 24 24"><path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></span>
+        <span class="omni"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>amazon.com<span class="dim">/dp/B0EXAMPLE</span></span>
+        <span class="tbtn"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg></span>
+        <span class="avatar"></span>
+      </div>
+      <div class="site">
+        <div class="sitehead"><span class="logo"></span><span class="search"></span><span class="acct"></span></div>
+        <div class="page">
+          <div class="pimg"><svg viewBox="0 0 32 70"><rect x="10" y="2" width="12" height="8" rx="2" fill="#9aa3ad"/><rect x="6" y="10" width="20" height="58" rx="7" fill="#c3cad2"/><rect x="6" y="28" width="20" height="16" fill="#aeb6bf"/></svg></div>
+          <div class="center">
+            <div class="crumbs">Home &amp; Kitchen › Kitchen &amp; Dining › Water Bottles</div>
+            <div class="ptitle">Insulated Water Bottle, 32 oz, Stainless Steel</div>
+            <div class="skel stars"></div>
+            <div class="price"><sup>$</sup>24<sup>99</sup></div>
+            <div class="fx card ann">
+              <div class="fxhead"><svg viewBox="0 0 20 20"><rect x="1" y="1" width="18" height="18" rx="5" fill="#248fcc"/><rect x="5.5" y="4.5" width="9" height="3" rx="1" fill="#faf8f6"/><g fill="#faf8f6"><circle cx="6.6" cy="10.6" r="1.1"/><circle cx="10" cy="10.6" r="1.1"/><circle cx="13.4" cy="10.6" r="1.1"/><circle cx="6.6" cy="14.2" r="1.1"/><circle cx="10" cy="14.2" r="1.1"/><circle cx="13.4" cy="14.2" r="1.1"/></g></svg><b>FBA Revenue Calculator</b><span class="fxbadge">US fees 2026 · USD</span></div>
+              <div class="fxtop"><div><div class="k">Net profit / unit</div><div class="v num">$8.55</div></div><div class="fxkpi"><div><div class="k">ROI</div><div class="v2 num">129%</div></div><div><div class="k">Margin</div><div class="v2 num">34.2%</div></div></div></div>
+              <div class="fxgrid">
+                <div><span class="l">Sale price</span><span class="in num">$24.99</span></div>
+                <div><span class="l">Product cost</span><span class="in num">$6.20</span></div>
+                <div><span class="l">Inbound shipping / unit</span><span class="in num">$0.45</span></div>
+                <div><span class="l">Months in storage</span><span class="in num">2</span></div>
+              </div>
+              <div class="fxrows">
+                <div class="fxrow"><span>Referral fee<small>Home &amp; Kitchen · 15%</small></span><span class="num">−$3.75</span></div>
+                <div class="fxrow"><span>FBA fulfillment fee<small>Large standard · 1.1 lb</small></span><span class="num">−$5.69</span></div>
+                <div class="fxrow"><span>Monthly storage</span><span class="num">−$0.35</span></div>
+                <div class="fxrow tot"><span>Amazon fees</span><span class="num">−$9.79</span></div>
+              </div>
+              <div class="fxfoot">Calculated on this device. No account.</div>
+              <span class="ring sq"></span><span class="badge l">1</span>
+            </div>
+          </div>
+          <div class="buy">
+            <div class="skel" style="height:22px;width:55%"></div>
+            <div class="skel" style="height:12px;width:90%"></div>
+            <div class="skel" style="height:12px;width:70%"></div>
+            <div class="skel pill" style="margin-top:6px"></div>
+            <div class="skel pill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="step">
+    <h2>Optional: pin the icon</h2>
+    <p>Click the puzzle icon, then the pin next to FBA Revenue Calculator. The icon stays on the toolbar: click it to see the same numbers in a popup, or choose <strong>Calculate manually</strong> to check fees for any product by its price, size and weight.</p>
+    <div class="shot pinshot" role="img" aria-label="The Chrome extensions menu: the puzzle icon is marked 2 and the pin next to FBA Revenue Calculator is marked 3">
+      <div class="win" aria-hidden="true">
+        <div class="tabs"><span class="tab"><span class="fav"></span>Insulated Water Bottle, 32 oz</span></div>
+        <div class="bar">
+          <span class="navi"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg><svg viewBox="0 0 24 24"><path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></span>
+          <span class="omni"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg>amazon.com<span class="dim">/dp/B0EXAMPLE</span></span>
+          <span class="tbtn ann"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg><span class="ring"></span><span class="badge">2</span></span>
+          <span class="avatar"></span>
+        </div>
+        <div class="site">
+          <div class="sitehead"><span class="logo"></span><span class="search"></span><span class="acct"></span></div>
+          <div class="pbody">
+            <div class="skel img"></div>
+            <div class="col"><div class="skel" style="height:14px;width:70%"></div><div class="skel" style="height:22px;width:90%"></div><div class="skel" style="height:22px;width:60%"></div><div class="skel" style="height:30px;width:28%;margin-top:8px"></div></div>
+          </div>
+        </div>
+        <div class="extmenu">
+          <div class="mh">Extensions<svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></div>
+          <div class="mrow">
+            <svg class="ico" viewBox="0 0 20 20"><rect x="1" y="1" width="18" height="18" rx="5" fill="#248fcc"/><rect x="5.5" y="4.5" width="9" height="3" rx="1" fill="#faf8f6"/><g fill="#faf8f6"><circle cx="6.6" cy="10.6" r="1.1"/><circle cx="10" cy="10.6" r="1.1"/><circle cx="13.4" cy="10.6" r="1.1"/><circle cx="6.6" cy="14.2" r="1.1"/><circle cx="10" cy="14.2" r="1.1"/><circle cx="13.4" cy="14.2" r="1.1"/></g></svg>
+            <span class="nm">FBA Revenue Calculator</span>
+            <span class="pinb ann"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M14 4v5c0 1.12.37 2.16 1 3H9c.65-.86 1-1.9 1-3V4h4m3-2H7a1 1 0 0 0 0 2h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3V4h1a1 1 0 0 0 0-2z"/></svg><span class="ring"></span><span class="badge">3</span></span>
+            <svg class="keb" viewBox="0 0 24 24"><path fill="currentColor" d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+          </div>
+          <div class="mfoot"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.14 12.94a7.07 7.07 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.61l-1.92-3.32a.5.5 0 0 0-.59-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.47.41l-.36 2.54a7.4 7.4 0 0 0-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58a7.3 7.3 0 0 0 0 1.88l-2.03 1.58a.5.5 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54a7 7 0 0 0 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.47.47 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z"/></svg>Manage extensions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="duo">
+    <div class="step">
+      <h2>No card on the page?</h2>
+      <p>Right-click the page and choose <strong>Show FBA Revenue Calculator</strong>. The card appears even if you turned cards off in the popup.</p>
+      <p>Or press <kbd>Alt+Shift+F</kbd> (<kbd>⌥⇧F</kbd> on a Mac) to show or hide the card. If nothing happens, another extension may already use these keys — set your own at <code>chrome://extensions/shortcuts</code>.</p>
+    </div>
+    <div class="shot ctxshot" role="img" aria-label="The right-click menu on a product page with Show FBA Revenue Calculator marked 4">
+      <div class="page" aria-hidden="true">
+        <div class="crumbs">Home &amp; Kitchen › Kitchen &amp; Dining › Water Bottles</div>
+        <div class="price"><sup>$</sup>24<sup>99</sup></div>
+        <div class="skel" style="height:12px;width:70%;margin-top:14px"></div>
+        <div class="skel" style="height:12px;width:55%;margin-top:10px"></div>
+        <svg class="cursor" viewBox="0 0 16 22"><path d="M1 1v17l4.5-4.2 3 6.7 2.8-1.3-3-6.5H14z" fill="#fff" stroke="#202124" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <div class="ctxmenu">
+          <div class="ci">Back<span class="sc">Alt+Left</span></div>
+          <div class="ci">Forward<span class="sc">Alt+Right</span></div>
+          <div class="ci">Reload<span class="sc">Ctrl+R</span></div>
+          <div class="sep"></div>
+          <div class="ci">Save as…<span class="sc">Ctrl+S</span></div>
+          <div class="ci">Print…<span class="sc">Ctrl+P</span></div>
+          <div class="sep"></div>
+          <div class="ci own ann"><svg viewBox="0 0 20 20"><rect x="1" y="1" width="18" height="18" rx="5" fill="#248fcc"/><rect x="5.5" y="4.5" width="9" height="3" rx="1" fill="#faf8f6"/><g fill="#faf8f6"><circle cx="6.6" cy="10.6" r="1.1"/><circle cx="10" cy="10.6" r="1.1"/><circle cx="13.4" cy="10.6" r="1.1"/><circle cx="6.6" cy="14.2" r="1.1"/><circle cx="10" cy="14.2" r="1.1"/><circle cx="13.4" cy="14.2" r="1.1"/></g></svg>Show FBA Revenue Calculator<span class="ring sq" style="inset:-3px -4px;border-radius:8px"></span><span class="badge" style="top:-14px;right:-14px">4</span></div>
+          <div class="sep"></div>
+          <div class="ci">View page source<span class="sc">Ctrl+U</span></div>
+          <div class="ci">Inspect</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Questions or a bug? <a href="https://github.com/anastasialekasova-hub/fba-revenue-calculator-pages/issues" target="_blank" rel="noopener">Open an issue on GitHub</a>.
+    &nbsp;·&nbsp; <a href="https://pinwisp.com/fba-revenue-calculator/privacy/">Privacy</a>
+  </footer>
+
+</div>
+</body>
+</html>
