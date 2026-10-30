@@ -25,6 +25,12 @@
   h1 { font-size: 31px; line-height: 1.16; letter-spacing: -0.02em; text-wrap: balance; }
   h1 em { font-style: normal; color: #e8a33d; }
   .lede { margin-top: 10px; font-size: 18px; color: #b3a996; max-width: 56ch; }
+  .open-amazon {
+    display: inline-block; margin-top: 24px; padding: 14px 28px; border: 0; border-radius: 12px;
+    background: #e8a33d; color: #1b1815; font-size: 17px; font-weight: 700; cursor: pointer; text-decoration: none;
+  }
+  .open-amazon:hover { background: #f0b254; }
+  .open-amazon:focus-visible { outline: 2px solid #f2ece2; outline-offset: 3px; }
   .step { margin-top: 34px; }
   .step h2 { font-size: 24px; letter-spacing: -0.01em; line-height: 1.25; }
   .step p { margin-top: 8px; color: #b3a996; max-width: 58ch; }
@@ -155,7 +161,7 @@
   </div>
 
   <h1>FBA Revenue Calculator is installed. Open a product on Amazon — <em>its fees and profit appear under the price.</em></h1>
-  <p class="lede">The card shows up by itself on <a href="https://www.amazon.com/" target="_blank" rel="noopener">amazon.com</a> and <a href="https://www.amazon.co.uk/" target="_blank" rel="noopener">amazon.co.uk</a> product pages, not on the home page. Add your product cost to see your profit — the card remembers it for each product.</p>
+  <p class="lede">The card shows up by itself on amazon.com and <a href="https://www.amazon.co.uk/" target="_blank" rel="noopener">amazon.co.uk</a> product pages, not on the home page. Add your product cost to see your profit — the card remembers it for each product.</p>
 
   <!-- Shot 1: the card under the price (annotation 1) -->
   <div class="shot prod" role="img" aria-label="An Amazon product page with the FBA Revenue Calculator card under the price: net profit $8.55 per unit, ROI 129%, margin 34.2%, Amazon fees $9.79">
@@ -206,10 +212,11 @@
       </div>
     </div>
   </div>
+  <a class="open-amazon" href="https://www.amazon.com/" target="_blank" rel="noopener">Open amazon.com</a>
 
   <section class="step">
     <h2>Optional: pin the icon</h2>
-    <p>Click the puzzle icon, then the pin next to FBA Revenue Calculator. The icon stays on the toolbar: click it to see the same numbers in a popup, or choose <strong>Calculate manually</strong> to check fees for any product by its price, size and weight.</p>
+    <p>Click the puzzle icon, then the pin next to FBA Revenue Calculator. The icon stays on the toolbar: click it to see the same numbers in a popup.</p>
     <div class="shot pinshot" role="img" aria-label="The Chrome extensions menu: the puzzle icon is marked 2 and the pin next to FBA Revenue Calculator is marked 3">
       <div class="win" aria-hidden="true">
         <div class="tabs"><span class="tab"><span class="fav"></span>Insulated Water Bottle, 32 oz</span></div>
